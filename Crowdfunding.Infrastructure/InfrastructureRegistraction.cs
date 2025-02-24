@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Crowdfunding.Infrastructure.Infrastructure.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,16 @@ namespace Crowdfunding.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             #region 資料表的Repository
-        
+            services.AddScoped<CommentRepository>();
+            services.AddScoped<FavoriteRepository>();
+            services.AddScoped<InvestItemRepository>();
+            services.AddScoped<NewsRepository>();
+            services.AddScoped<ProjectImageRepository>();
+            services.AddScoped<ProjectRepository>();
+            services.AddScoped<ProjectTypeRepository>();
+            services.AddScoped<QuestionRepository>();
+            services.AddScoped<SuperCommentRepository>();
+            services.AddScoped<UserRepository>();
             #endregion
 
             return services;

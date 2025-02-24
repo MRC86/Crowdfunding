@@ -18,4 +18,10 @@ public partial class ProjectType
     [Required]
     [StringLength(50)]
     public string Name { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CreateTime { get; set; }
+
+    [InverseProperty("ProjectType")]
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 }

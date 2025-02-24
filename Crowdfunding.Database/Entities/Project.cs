@@ -49,6 +49,8 @@ public partial class Project
     [Column(TypeName = "datetime")]
     public DateTime UpdateTime { get; set; }
 
+    public bool IsDelete { get; set; }
+
     [InverseProperty("Project")]
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
@@ -64,9 +66,17 @@ public partial class Project
     [InverseProperty("Project")]
     public virtual ICollection<ProjectImage> ProjectImages { get; set; } = new List<ProjectImage>();
 
+    [ForeignKey("ProjectTypeId")]
+    [InverseProperty("Projects")]
+    public virtual ProjectType ProjectType { get; set; }
+
     [InverseProperty("Project")]
     public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
 
     [InverseProperty("Project")]
     public virtual ICollection<SuperComment> SuperComments { get; set; } = new List<SuperComment>();
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Projects")]
+    public virtual User User { get; set; }
 }

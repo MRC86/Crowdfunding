@@ -21,6 +21,9 @@ public partial class ProjectImage
     [Column("ProjectID")]
     public Guid ProjectId { get; set; }
 
+    [Column(TypeName = "datetime")]
+    public DateTime CreateTime { get; set; }
+
     [ForeignKey("ProjectId")]
     [InverseProperty("ProjectImages")]
     public virtual Project Project { get; set; }

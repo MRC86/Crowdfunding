@@ -8,6 +8,10 @@ namespace Crowdfunding.Database.Entities;
 
 public partial class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+    }
+
     public DatabaseContext(DbContextOptions<DatabaseContext> options)
         : base(options)
     {
@@ -34,6 +38,10 @@ public partial class DatabaseContext : DbContext
     public virtual DbSet<SuperComment> SuperComments { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Crowdfunding;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -104,6 +112,14 @@ public partial class DatabaseContext : DbContext
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateTime).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.ProjectType).WithMany(p => p.Projects)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Project_ProjectType");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Projects)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Project_User");
         });
 
         modelBuilder.Entity<ProjectImage>(entity =>
@@ -117,7 +133,7 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<ProjectType>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
 
         modelBuilder.Entity<Question>(entity =>

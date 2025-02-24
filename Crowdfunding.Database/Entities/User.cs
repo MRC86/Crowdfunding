@@ -26,6 +26,8 @@ public partial class User
     [Column(TypeName = "datetime")]
     public DateTime CreateTime { get; set; }
 
+    public bool IsDelete { get; set; }
+
     [InverseProperty("User")]
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 
@@ -37,6 +39,9 @@ public partial class User
 
     [InverseProperty("User")]
     public virtual ICollection<InvestItem> InvestItems { get; set; } = new List<InvestItem>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
     [InverseProperty("User")]
     public virtual ICollection<SuperComment> SuperComments { get; set; } = new List<SuperComment>();

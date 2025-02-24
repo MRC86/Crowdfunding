@@ -26,6 +26,8 @@ public partial class InvestItem
     [Column(TypeName = "datetime")]
     public DateTime CreateTime { get; set; }
 
+    public bool IsDelete { get; set; }
+
     [ForeignKey("ProjectId")]
     [InverseProperty("InvestItems")]
     public virtual Project Project { get; set; }

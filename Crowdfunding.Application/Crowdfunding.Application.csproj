@@ -14,11 +14,11 @@
 
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="Features\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Crowdfunding.Infrastructure\Crowdfunding.Infrastructure.csproj" />
+    <ProjectReference Include="..\Crowdfunding.Share\Crowdfunding.Share.csproj" />
   </ItemGroup>
 
 </Project>

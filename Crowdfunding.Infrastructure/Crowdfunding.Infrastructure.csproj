@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Repositories\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Crowdfunding.Database\Crowdfunding.Database.csproj" />
     <ProjectReference Include="..\Crowdfunding.Share\Crowdfunding.Share.csproj" />
   </ItemGroup>

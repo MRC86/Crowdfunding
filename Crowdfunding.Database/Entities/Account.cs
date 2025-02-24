@@ -27,6 +27,11 @@ public partial class Account
     [StringLength(50)]
     public string Password { get; set; }
 
+    public bool IsDelete { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime CreateTime { get; set; }
+
     [ForeignKey("UserId")]
     [InverseProperty("Accounts")]
     public virtual User User { get; set; }

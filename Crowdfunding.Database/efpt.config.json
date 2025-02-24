@@ -3,7 +3,7 @@
    "ContextClassName": "DatabaseContext",
    "ContextNamespace": null,
    "FilterSchemas": false,
-   "IncludeConnectionString": false,
+   "IncludeConnectionString": true,
    "ModelNamespace": "",
    "OutputContextPath": null,
    "OutputPath": "Entities",
