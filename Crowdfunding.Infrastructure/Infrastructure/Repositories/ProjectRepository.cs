@@ -33,7 +33,6 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
             project.CreateTime = DateTime.Now;
             project.Status = "init";
             project.UpdateTime = DateTime.Now;
-            project.Status = projectData.Status;
 
             this.dataBase.Projects.Add(project);
             this.dataBase.SaveChanges();
@@ -61,12 +60,12 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
         //    this.dataBase.SaveChanges();
         //    return true;
         //}
-        public List<ProjectModels> GetProjects(Guid id)//根據projectid查詢多個
+        public ProjectModels GetProject(Guid id)//根據projectid查詢多個
         {
             if (!this.dataBase.Projects.Any(x => x.Id == id))
                 throw new Exception("查無此資料");
 
-            List<ProjectModels> project = this.dataBase.Projects.Where(x => x.Id == id)
+            ProjectModels project = this.dataBase.Projects.Where(x => x.Id == id)
             .Select(x => new ProjectModels()
             {
                 Id = x.Id,
@@ -74,23 +73,120 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
                 ProjectTypeId = x.ProjectTypeId,
                 Cover = x.Cover,
                 TargetMoney=x.TargetMoney,
-                ExpireTime=x.ExpireTime,
+                TotalDonate = x.InvestItems.Where(y => y.ProjectId == x.Id).Sum(y => y.Donate),
+                ExpireTime =x.ExpireTime,
                 Description=x.Description,
                 Detail = x.Detail,
                 UserId=x.UserId,
                 CreateTime=x.CreateTime,
                 Status=x.Status,
                 UpdateTime=x.UpdateTime,
-            }).ToList();
+            }).First();
 
             return project;
         }
+
         public bool DeleteProject(Guid id) //刪除
         {
             Project project = this.dataBase.Projects.FirstOrDefault(x => x.Id == id) ?? throw new Exception("查無此資料");
             project.IsDelete = false;
             this.dataBase.SaveChanges();
             return true;
+        }
+
+        public List<ProjectModels> SearchProjects(ProjectSearchModel searchModel)
+        {
+            List<ProjectModels> project = this.dataBase.Projects
+                .Where(x=> !String.IsNullOrEmpty(searchModel.ProjectName) ? x.Name.Contains(searchModel.ProjectName): true)
+                .Where(x=> !String.IsNullOrEmpty(searchModel.ProjectStatus) ? x.Status == searchModel.ProjectStatus : true)
+                .Where(x=> searchModel.LimitMoney >0 ? x.TargetMoney <= searchModel.LimitMoney : true)
+            .Select(x => new ProjectModels()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                ProjectTypeId = x.ProjectTypeId,
+                Cover = x.Cover,
+                TargetMoney = x.TargetMoney,
+                TotalDonate = x.InvestItems.Where(y => y.ProjectId == x.Id).Sum(y => y.Donate), // this.dataBase.InvestItems.Where(y => y.ProjectId == x.Id).Sum(x => x.Donate),
+                ExpireTime = x.ExpireTime,
+                Description = x.Description,
+                Detail = x.Detail,
+                UserId = x.UserId,
+                CreateTime = x.CreateTime,
+                Status = x.Status,
+                UpdateTime = x.UpdateTime,
+            }).ToList().Where(x => {
+                var timeSpan = x.ExpireTime - DateTime.Now;
+
+                if (timeSpan < TimeSpan.Zero)
+                    return false;
+                if (searchModel.ExpireStatus == "ALL")
+                    return true;
+
+                if (searchModel.ExpireStatus == "24H" && timeSpan.Days == 0)
+                    return true;
+
+                if (searchModel.ExpireStatus == "7Day" && timeSpan.Days <= 7)
+                    return true;
+
+                if (searchModel.ExpireStatus == "7Day" && timeSpan.Days <= 7)
+                    return true;
+
+                return false;
+
+
+            }).ToList();
+
+            return project;
+        }
+
+
+        public List<ProjectModels> GetProjects()//根據projectid查詢多個
+        {
+            List<ProjectModels> project = this.dataBase.Projects
+            .Select(x => new ProjectModels()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                ProjectTypeId = x.ProjectTypeId,
+                Cover = x.Cover,
+                TargetMoney = x.TargetMoney,
+                TotalDonate = x.InvestItems.Where(y=>y.ProjectId == x.Id).Sum(y=>y.Donate), // this.dataBase.InvestItems.Where(y => y.ProjectId == x.Id).Sum(x => x.Donate),
+                ExpireTime = x.ExpireTime,
+                Description = x.Description,
+                Detail = x.Detail,
+                UserId = x.UserId,
+                CreateTime = x.CreateTime,
+                Status = x.Status,
+                UpdateTime = x.UpdateTime,
+            }).ToList();
+
+            return project;
+        }
+        public List<ProjectModels> GetProjectsByUserID(Guid id)//根據projectid查詢多個
+        {
+            if (!this.dataBase.Projects.Any(x => x.UserId == id))
+                throw new Exception("查無此資料");
+
+            List<ProjectModels> project = this.dataBase.Projects.Where(x => x.UserId == id)
+            .Select(x => new ProjectModels()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                ProjectTypeId = x.ProjectTypeId,
+                Cover = x.Cover,
+                TargetMoney = x.TargetMoney,
+                TotalDonate = x.InvestItems.Where(y => y.ProjectId == x.Id).Sum(y => y.Donate), // this.dataBase.InvestItems.Where(y => y.ProjectId == x.Id).Sum(x => x.Donate),
+                ExpireTime = x.ExpireTime,
+                Description = x.Description,
+                Detail = x.Detail,
+                UserId = x.UserId,
+                CreateTime = x.CreateTime,
+                Status = x.Status,
+                UpdateTime = x.UpdateTime,
+            }).ToList();
+
+            return project;
         }
     }
 }

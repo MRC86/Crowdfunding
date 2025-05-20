@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdfunding.Application.Features.Project.GetProjects
+namespace Crowdfunding.Application.Features.Project.GetProject
 {
-    public class GetProjectsReq : IRequest<ResponseData<GetProjectsRes>>
+    public class GetProjectReq : IRequest<ResponseData<GetProjectRes>>
     {
-         
+        public Guid ProjectID { get; set; }
     }
 }

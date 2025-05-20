@@ -24,6 +24,7 @@ namespace Crowdfunding.Infrastructure
             services.AddScoped<QuestionRepository>();
             services.AddScoped<SuperCommentRepository>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<AccountRepository>();
             #endregion
 
             return services;

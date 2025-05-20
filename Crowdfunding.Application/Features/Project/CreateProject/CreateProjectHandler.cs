@@ -24,7 +24,6 @@ namespace Crowdfunding.Application.Features.Project.CreateProject
         {
             ProjectModels projectModel =  Mapper.Map<CreateProjectReq, ProjectModels>(request);
             bool isSuccess = this.repository.CreateProject(projectModel);
-
             if (isSuccess)
             {
                 return await Task.FromResult(new Response("新增成功"));

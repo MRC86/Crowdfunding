@@ -33,6 +33,8 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
             account.UserId = user.Id;
             account.Account1 = users.Account1;
             account.Password = users.Password;
+            account.CreateTime = DateTime.Now;
+
             this.dataBase.Users.Add(user);
             this.dataBase.Accounts.Add(account);
             this.dataBase.SaveChanges();

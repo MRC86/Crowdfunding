@@ -1,5 +1,6 @@
 ﻿using Crowdfunding.Application.Features.Favorite.CreateFavorite;
 using Crowdfunding.Application.Features.InvestItem.CreateInvestItem;
+using Crowdfunding.Application.Features.InvestItem.GetInvertCount;
 using Crowdfunding.Application.Features.InvestItem.GetInvestItem;
 using Crowdfunding.Application.Features.InvestItem.GetInvestItemUserID;
 using Crowdfunding.Application.Features.InvestItem.RemoveInvestItem;
@@ -52,6 +53,12 @@ namespace Crowdfunding.API.Controllers
         }
         [HttpPost("UpdateInvestItem")]
         public async Task<IActionResult> UpdateInvestItem(UpdateInvestItemReq req)
+        {
+            var response = await mediator.Send(req);
+            return Ok(response);
+        }
+        [HttpPost("GetInvertCount")]
+        public async Task<IActionResult> GetInvertCount(GetInvertCountReq req)
         {
             var response = await mediator.Send(req);
             return Ok(response);

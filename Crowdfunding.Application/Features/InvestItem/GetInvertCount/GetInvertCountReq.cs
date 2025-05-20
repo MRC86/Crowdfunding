@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdfunding.Application.Features.Project.GetProjects
+namespace Crowdfunding.Application.Features.InvestItem.GetInvertCount
 {
-    public class GetProjectsReq : IRequest<ResponseData<GetProjectsRes>>
+    public class GetInvertCountReq : IRequest<ResponseData<GetInvertCountRes>>
     {
-         
+        public Guid Id { get; set; }
     }
 }

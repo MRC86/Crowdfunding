@@ -22,7 +22,6 @@ public partial class Project
     [Column("ProjectTypeID")]
     public Guid ProjectTypeId { get; set; }
 
-    [Required]
     public string Cover { get; set; }
 
     public int TargetMoney { get; set; }

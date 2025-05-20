@@ -20,6 +20,7 @@ namespace Crowdfunding.Infrastructure.Models
         public string Cover { get; set; }
 
         public int TargetMoney { get; set; }
+        public int TotalDonate { get; set; }
 
         public DateTime ExpireTime { get; set; }
 
@@ -35,5 +36,6 @@ namespace Crowdfunding.Infrastructure.Models
 
         public DateTime UpdateTime { get; set; }
         public bool IsDelete { get; set; }
+
     }
 }

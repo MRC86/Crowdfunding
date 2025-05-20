@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdfunding.Application.Features.InvestItem.GetInvestItemUserID
+namespace Crowdfunding.Application.Features.Project.GetProjectsByUserID
 {
-    public class GetInvestItemUserIDRes
+    public class GetProjectsByUserIDRes
     {
-        public List<ProjectModels> InvestItem { get; set; }
+        public List<ProjectModels> Projects { get; set; }
     }
 }

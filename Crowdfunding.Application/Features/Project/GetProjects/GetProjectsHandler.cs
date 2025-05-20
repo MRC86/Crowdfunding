@@ -22,7 +22,7 @@ namespace Crowdfunding.Application.Features.Project.GetProjects
         //擇一選擇做使用，如果API要回傳資料就選擇 ResponseData，如果不需要回傳資料就選擇Response
         public async Task<ResponseData<GetProjectsRes>> Handle(GetProjectsReq request, CancellationToken cancellationToken)
         {
-            List <ProjectModels> projects = this.repository.GetProjects(request.ProjectID);
+            List <ProjectModels> projects = this.repository.GetProjects();
 
             GetProjectsRes response = new GetProjectsRes();
             response.Projects = projects;

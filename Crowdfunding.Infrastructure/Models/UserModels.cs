@@ -11,6 +11,13 @@ namespace Crowdfunding.Infrastructure.Models
 {
     public class UserModels
     {
+        public UserModels() { } 
+        public UserModels(Guid id, string name, string email)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+        }
 
         public Guid Id { get; set; }
 
@@ -23,6 +30,8 @@ namespace Crowdfunding.Infrastructure.Models
         public string Account1 { get; set; }
 
         public string Password { get; set; }
+
+       
 
     }
 }

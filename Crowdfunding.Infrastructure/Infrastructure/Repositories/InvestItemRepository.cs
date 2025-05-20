@@ -64,18 +64,28 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
         }
 
 
-        public List<InvestItemModels> GetInvestItemUserID(Guid userID)//查詢
+        public List<ProjectModels> GetInvestItemUserID(Guid userID)//查詢
         {
             if (!this.dataBase.InvestItems.Any(x => x.UserId == userID))
                 throw new Exception("查無此資料");
 
-            List<InvestItemModels> favorite = this.dataBase.InvestItems.Where(x => x.UserId == userID)
-            .Select(x => new InvestItemModels()
+            List<ProjectModels> favorite = this.dataBase.InvestItems.Where(x => x.UserId == userID)
+            .Select(x => new ProjectModels()
             {
-                Id = x.Id,
-                UserId = x.UserId,
-                ProjectId = x.ProjectId,
-                CreateTime = x.CreateTime,
+                Id = x.Project.Id,
+                Name = x.Project.Name,
+                ProjectTypeId = x.Project.ProjectTypeId,
+                Cover = x.Project.Cover,
+                TargetMoney = x.Project.TargetMoney,
+                TotalDonate = x.Project.InvestItems.Sum(y=>y.Donate),
+                ExpireTime = x.Project.ExpireTime,
+                Description = x.Project.Description,
+                Detail = x.Project.Detail,
+                UserId = x.Project.UserId,
+                CreateTime = x.Project.CreateTime,
+                Status = x.Project.Status,
+                UpdateTime = x.Project.UpdateTime,
+                IsDelete = x.Project.IsDelete,
             }).ToList();
 
             return favorite;
@@ -97,5 +107,23 @@ namespace Crowdfunding.Infrastructure.Infrastructure.Repositories
             this.dataBase.SaveChanges();
             return true;
         }
+
+        public int GetInvertCount(Guid projectID)
+        {
+            if (!this.dataBase.InvestItems.Any(x => x.ProjectId == projectID))
+                throw new Exception("查無此資料");
+
+            List<InvestItemModels> favorite = this.dataBase.InvestItems.Where(x => x.ProjectId == projectID)
+            .Select(x => new InvestItemModels()
+            {
+                Id = x.Id,
+                UserId = x.UserId,
+                ProjectId = x.ProjectId,
+                CreateTime = x.CreateTime,
+            }).ToList();
+
+            return favorite.Count;
+        }
+
     }
 }

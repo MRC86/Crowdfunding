@@ -20,9 +20,9 @@ namespace Crowdfunding.Application.Features.InvestItem.GetInvestItemUserID
         }
         public async Task<ResponseData<GetInvestItemUserIDRes>> Handle(GetInvestItemUserIDReq request, CancellationToken cancellationToken)
         {
-            List<InvestItemModels> investItemModels = this.repository.GetInvestItemUserID(request.userID);
+            List<ProjectModels> investItemModels = this.repository.GetInvestItemUserID(request.userID);
             GetInvestItemUserIDRes getInvestItemUserIDRes = new GetInvestItemUserIDRes();
-            getInvestItemUserIDRes.InvestItemUserID = investItemModels;
+            getInvestItemUserIDRes.InvestItem = investItemModels;
             return await Task.FromResult(new ResponseData<GetInvestItemUserIDRes>(getInvestItemUserIDRes));
         }
     }
